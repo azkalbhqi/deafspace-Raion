@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "13589558508",
+    "project_id": "deafspace-21d65",
+    "storage_bucket": "deafspace-21d65.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:13589558508:android:ebb6a02dc1da83c8fee1c9",
+        "android_client_info": {
+          "package_name": "com.example.deafspace_prod"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB97cJ_CnHohUZNSbH7yY1oSn4lzRoBCfM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:13589558508:android:093ea2c98e74d5c3fee1c9",
+        "android_client_info": {
+          "package_name": "com.example.deafspace_raionapps3"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB97cJ_CnHohUZNSbH7yY1oSn4lzRoBCfM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -13,6 +13,7 @@ dependencies:
   firebase_auth: ^5.1.4
   google_fonts: ^4.0.4
   fluttertoast: ^8.2.8
+  flutter_tts: ^4.0.2
 
 dev_dependencies:
   flutter_test:

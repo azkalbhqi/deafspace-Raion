@@ -1,3 +1,5 @@
+// ignore_for_file: unused_import
+
 import 'package:deafspace_prod/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -6,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:deafspace_prod/pages/login/login.dart';
 import 'package:deafspace_prod/onboarding/splash.dart';
 import 'package:deafspace_prod/onboarding/ob1.dart';
+import 'package:deafspace_prod/pages/featurepage/translate.dart';
 // import 'package:deafspace_prod/pages/signup/signup.dart';
 
 Future<void> main() async {
@@ -26,11 +29,13 @@ class MyApp extends StatelessWidget {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
 
-      home: OnboardingScreen(),
-
-      // home: SplashScreen(),
-      
+//testing Onboard
+      // home: OnboardingScreen(),
+      // home: SplashScreen(),   
       // home: Login()
+
+//Testing feature 
+      home: Translate(),
     );
   }
 }

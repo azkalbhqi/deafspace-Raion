@@ -14,8 +14,6 @@ dependencies:
   google_fonts: ^4.0.4
   fluttertoast: ^8.2.8
 
-  
-
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -23,3 +21,10 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+
+  assets:
+  - assets/images/logos/logo.png
+  - assets/images/img/1.png    # Ensure correct indentation for assets
+  - assets/images/img/2.png    # Ensure correct indentation for assets
+  - assets/images/img/3.png    # Ensure correct indentation for assets
+  - assets/images/img/4.png    # Ensure correct indentation for assets

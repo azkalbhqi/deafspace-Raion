@@ -1,7 +1,11 @@
 import 'package:deafspace_prod/firebase_options.dart';
-import 'package:deafspace_prod/pages/login/login.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+
+//testing
+import 'package:deafspace_prod/pages/login/login.dart';
+import 'package:deafspace_prod/onboarding/splash.dart';
+import 'package:deafspace_prod/onboarding/ob1.dart';
 // import 'package:deafspace_prod/pages/signup/signup.dart';
 
 Future<void> main() async {
@@ -19,9 +23,14 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Login()
+
+      home: OnboardingScreen(),
+
+      // home: SplashScreen(),
+      
+      // home: Login()
     );
   }
 }

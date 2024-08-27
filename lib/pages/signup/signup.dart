@@ -4,6 +4,9 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'package:deafspace_prod/widget/buttons.dart';
+import 'package:deafspace_prod/styles.dart';
+
 class Signup extends StatelessWidget {
   Signup({super.key});
 
@@ -12,45 +15,87 @@ class Signup extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      resizeToAvoidBottomInset: true,
-      bottomNavigationBar: _signin(context),
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        toolbarHeight: 50,
-      ),
-      body: SafeArea(
-        child: SingleChildScrollView(
-         padding: const EdgeInsets.symmetric(horizontal: 16,vertical: 16),
-          child: Column(
-            children: [
-              Center(
-                child: Text(
-                  'Register Account',
-                  style: GoogleFonts.raleway(
-                    textStyle: const TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 32
-                    )
-                  ),
+  return Scaffold(
+    backgroundColor: ColorStyles.primary,
+    resizeToAvoidBottomInset: true,
+    appBar: AppBar(
+      backgroundColor: Colors.transparent,
+      elevation: 0,
+      toolbarHeight: 90,
+    ),
+    body: SingleChildScrollView(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 1),
+      child: Column(
+        children: [
+          Center(
+            child: Text(
+              'DeafSpace',
+              style: GoogleFonts.raleway(
+                textStyle: TextStyle(
+                  color: ColorStyles.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 32,
                 ),
               ),
-              const SizedBox(height: 80,),
-               _emailAddress(),
-               const SizedBox(height: 20,),
-               _password(),
-               const SizedBox(height: 50,),
-               _signup(context),
-            ],
+            ),
           ),
-
+          const SizedBox(height: 50),
+          
+          // Square Container wrapping email, password, and button
+          Container(
+            width: 500,  // Set the desired width
+            height: 540, // Set the desired height
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: Colors.white, // Background color of the square
+              borderRadius: BorderRadius.circular(10), // Optional: rounded corners
+              boxShadow: [
+                BoxShadow(
+                  color: ColorStyles.blacks,
+                  blurRadius: 10,
+                  spreadRadius: 5,
+                ),
+              ],
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const SizedBox(height: 15),
+                _title(),
+                const SizedBox(height: 20),
+                _emailAddress(),
+                const SizedBox(height: 50),
+                _password(),
+                const SizedBox(height: 50),
+                _signup(context),
+                const SizedBox(height: 15),
+                _signin(context),
+              ],
+            ),
+          ),
+          
+          const SizedBox(height: 50),
+        ],
       ),
-      )
-    );
-  }
+    ),
+  );
+}
+
+ Widget _title() {
+  return Container(
+    alignment: Alignment.centerLeft, // Aligns the text to the left
+    child: Text(
+      'Register',
+      style: GoogleFonts.raleway(
+        textStyle: TextStyle(
+          color: ColorStyles.black,
+          fontWeight: FontWeight.bold,
+          fontSize: 32,
+        ),
+      ),
+    ),
+  );
+ }
 
   Widget _emailAddress() {
     return Column(
@@ -73,8 +118,8 @@ class Signup extends StatelessWidget {
           decoration: InputDecoration(
             filled: true,
             hintText: 'example@gmail.com',
-            hintStyle: const TextStyle(
-              color: Color(0xff6A6A6A),
+            hintStyle: TextStyle(
+              color: ColorStyles.grey,
               fontWeight: FontWeight.normal,
               fontSize: 14
             ),
@@ -121,46 +166,42 @@ class Signup extends StatelessWidget {
     );
   }
 
+
   Widget _signup(BuildContext context) {
-    return ElevatedButton(
-      style: ElevatedButton.styleFrom(
-        backgroundColor: const Color(0xff0D6EFD),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(14),
-          ),
-          minimumSize: const Size(double.infinity, 60),
-          elevation: 0,
-      ),
-      onPressed: () async {
-       await AuthService().signup(
+    return Buttons(
+      onClicked: () async {
+        await AuthService().signin(
           email: _emailController.text,
           password: _passwordController.text,
           context: context
         );
       },
-      child: const Text("Sign Up"),
+      text: ('Sign In'),
+      width: MediaQuery.of(context).size.width, 
+      backgroundColor: ColorStyles.primary, 
+      fontColor: ColorStyles.whites
     );
   }
 
   Widget _signin(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 16),
+      padding: const EdgeInsets.only(bottom: 0),
       child: RichText(
         textAlign: TextAlign.center,
         text: TextSpan(
           children: [
-            const TextSpan(
+            TextSpan(
                 text: "Already Have Account? ",
                 style: TextStyle(
-                  color: Color(0xff6A6A6A),
+                  color: ColorStyles.grey,
                   fontWeight: FontWeight.normal,
                   fontSize: 16
                 ),
               ),
               TextSpan(
                 text: "Log In",
-                style: const TextStyle(
-                    color: Color(0xff1A1D1E),
+                style: TextStyle(
+                    color: ColorStyles.primary,
                     fontWeight: FontWeight.normal,
                     fontSize: 16
                   ),

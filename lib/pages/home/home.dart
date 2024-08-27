@@ -1,4 +1,5 @@
 import 'package:deafspace_prod/services/auth_service.dart';
+import 'package:deafspace_prod/styles.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -49,7 +50,7 @@ class Home extends StatelessWidget {
   Widget _logout(BuildContext context) {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
-        backgroundColor: const Color(0xff0D6EFD),
+        backgroundColor: ColorStyles.primary,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(14),
         ),

@@ -31,11 +31,11 @@ class MyApp extends StatelessWidget {
 
 //testing Onboard
       // home: OnboardingScreen(),
-      // home: SplashScreen(),   
+      home: SplashScreen(),   
       // home: Login()
 
 //Testing feature 
-      home: Translate(),
+      // home: Translate(),
     );
   }
 }

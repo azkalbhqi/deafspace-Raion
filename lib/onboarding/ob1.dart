@@ -1,6 +1,7 @@
 import 'package:deafspace_prod/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:deafspace_prod/pages/login/login.dart';
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({Key? key}) : super(key: key);
@@ -18,15 +19,13 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     "Ini title ke 2",
     "Ini title ke 3",
     "Ini title ke 4",
-    // Add more titles for other pages
   ];
 
   final List<String> _descriptions = [
-    "Lorem ipsum 1 dolor sit amet, consectetur adipiscing elit. Vivamus lacinia odio vitae vestibulum vestibulum. Cras venenatis euismod malesuada. Fusce vitae felis eu lorem convallis bibendum nec eu elit. Suspendisse potenti.",
-    "Lorem ipsum 2, consectetur adipiscing elit. Vivamus lacinia odio vitae vestibulum vestibulum. Cras venenatis euismod malesuada. Fusce vitae felis eu lorem convallis bibendum nec eu elit. Suspendisse potenti.",
-    "Lorem ipsum 3, consectetur adipiscing elit. Vivamus lacinia odio vitae vestibulum vestibulum. Cras venenatis euismod malesuada. Fusce vitae felis eu lorem convallis bibendum nec eu elit. Suspendisse potenti.",
-    "Lorem ipsum 4, consectetur adipiscing elit. Vivamus lacinia odio vitae vestibulum vestibulum. Cras venenatis euismod malesuada. Fusce vitae felis eu lorem convallis bibendum nec eu elit. Suspendisse potenti.",
-    // Add more descriptions for other pages
+    "Lorem ipsum 1 dolor sit amet, consectetur adipiscing elit.",
+    "Lorem ipsum 2 dolor sit amet, consectetur adipiscing elit.",
+    "Lorem ipsum 3 dolor sit amet, consectetur adipiscing elit.",
+    "Lorem ipsum 4 dolor sit amet, consectetur adipiscing elit.",
   ];
 
   final List<String> _images = [
@@ -34,11 +33,24 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     'assets/images/img/2.png',
     'assets/images/img/3.png',
     'assets/images/img/4.png',
-    // Add paths for other images for other pages
   ];
 
   void _skipOnboarding() {
-    // Implement what happens when the "Lewati" button is pressed
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => Login()),
+    );
+  }
+
+  void _goToNextPage() {
+    if (_currentIndex < _titles.length - 1) {
+      _controller.nextPage(
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.ease,
+      );
+    } else {
+      _skipOnboarding();  // Navigate to the next page after the last onboarding screen
+    }
   }
 
   @override
@@ -65,7 +77,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Image.asset(
-                            _images[index], // Make sure this path is correct
+                            _images[index], // Ensure these paths are correct
                             height: 300, // Adjust as needed
                           ),
                           const SizedBox(height: 40),
@@ -84,6 +96,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 controller: _controller,
                 currentIndex: _currentIndex,
                 length: _titles.length,
+                onNext: _goToNextPage,
               ),
               const SizedBox(height: 20),
             ],
@@ -148,12 +161,14 @@ class TimelineAndNextButton extends StatelessWidget {
   final PageController controller;
   final int currentIndex;
   final int length;
+  final VoidCallback onNext;
 
   const TimelineAndNextButton({
     Key? key,
     required this.controller,
     required this.currentIndex,
     required this.length,
+    required this.onNext,
   }) : super(key: key);
 
   @override
@@ -177,16 +192,7 @@ class TimelineAndNextButton extends StatelessWidget {
             }),
           ),
           ElevatedButton(
-            onPressed: () {
-              if (currentIndex < length - 1) {
-                controller.nextPage(
-                  duration: const Duration(milliseconds: 300),
-                  curve: Curves.ease,
-                );
-              } else {
-                // Navigate to another page after the last onboarding screen
-              }
-            },
+            onPressed: onNext,
             style: ElevatedButton.styleFrom(
               shape: const CircleBorder(),
               padding: const EdgeInsets.all(16),

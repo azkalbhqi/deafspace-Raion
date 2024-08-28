@@ -4,6 +4,12 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 class PolylineService {
   final PolylinePoints _polylinePoints = PolylinePoints();
 
+  // Define the origin and destination coordinates
+  final double _originLatitude = 37.7749;
+  final double _originLongitude = -122.4194;
+  final double _destLatitude = 34.0522;
+  final double _destLongitude = -118.2437;
+
   Future<List<LatLng>> getPolyline(
     String apiKey,
     LatLng startLocation,
@@ -19,9 +25,15 @@ class PolylineService {
     try {
       // Request route between coordinates
       PolylineResult result = await _polylinePoints.getRouteBetweenCoordinates(
-        apiKey: apiKey,
-        startPoint: PointLatLng(startLocation.latitude, startLocation.longitude),
-        endPoint: PointLatLng(endLocation.latitude, endLocation.longitude),
+        googleApiKey: apiKey,
+        request: PolylineRequest(
+          origin: PointLatLng(_originLatitude, _originLongitude),  // Start Point
+          destination: PointLatLng(_destLatitude, _destLongitude),  // End Point
+          mode: TravelMode.driving,
+          wayPoints: [
+            PolylineWayPoint(location: "") // Example waypoint
+          ],
+        ),
       );
 
       // Check if the request was successful

@@ -1,10 +1,12 @@
+// ignore_for_file: library_private_types_in_public_api, use_super_parameters
+
 import 'package:deafspace_prod/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:deafspace_prod/pages/login/login.dart';
 
 class OnboardingScreen extends StatefulWidget {
-  const OnboardingScreen({Key? key}) : super(key: key);
+  const OnboardingScreen({super.key});
 
   @override
   _OnboardingScreenState createState() => _OnboardingScreenState();
@@ -126,10 +128,10 @@ class TitleParagraph extends StatelessWidget {
   final String description;
 
   const TitleParagraph({
-    Key? key,
+    super.key,
     required this.title,
     required this.description,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

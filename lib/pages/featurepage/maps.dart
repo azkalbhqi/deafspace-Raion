@@ -1,8 +1,9 @@
+// map_page.dart
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:location/location.dart';
-import 'package:flutter_polyline_points/flutter_polyline_points.dart';
-import 'package:geocoding/geocoding.dart';
+import 'package:location/location.dart' as loc;
+import 'package:deafspace_prod/services/polyline_service.dart'; // Import the polyline service
+import 'package:deafspace_prod/services/config.dart'; // Import your config file
 
 class MapPage extends StatefulWidget {
   @override
@@ -11,23 +12,48 @@ class MapPage extends StatefulWidget {
 
 class _MapPageState extends State<MapPage> {
   GoogleMapController? _mapController;
-  Location _location = Location();
-
+  final loc.Location _location = loc.Location();
   LatLng? _startLocation;
   LatLng? _endLocation;
-
-  Set<Marker> _markers = {};
-  Set<Polyline> _polylines = {};
-  PolylinePoints polylinePoints = PolylinePoints();
-
-  static const String APIKEY = "AIzaSyAKOyCwbPj5OTSLCkPpMgj_xCsYEBMDyoM"; // Your API Key
+  final Set<Marker> _markers = {};
+  final Set<Polyline> _polylines = {};
+  final PolylineService _polylineService = PolylineService();
 
   @override
   void initState() {
     super.initState();
+    _checkLocationPermission();
+  }
+
+  Future<void> _checkLocationPermission() async {
+    bool serviceEnabled;
+    loc.PermissionStatus permissionGranted;
+
+    serviceEnabled = await _location.serviceEnabled();
+    if (!serviceEnabled) {
+      serviceEnabled = await _location.requestService();
+      if (!serviceEnabled) {
+        _showError('Location services are disabled.');
+        return;
+      }
+    }
+
+    permissionGranted = await _location.hasPermission();
+    if (permissionGranted == loc.PermissionStatus.denied) {
+      permissionGranted = await _location.requestPermission();
+      if (permissionGranted != loc.PermissionStatus.granted) {
+        _showError('Location permissions are denied.');
+        return;
+      }
+    }
+
     _location.onLocationChanged.listen((locationData) {
-      if (_startLocation != null && _endLocation != null) {
-        _addPolyline();
+      if (_mapController != null) {
+        _mapController?.animateCamera(
+          CameraUpdate.newLatLng(
+            LatLng(locationData.latitude!, locationData.longitude!),
+          ),
+        );
       }
     });
   }
@@ -41,7 +67,7 @@ class _MapPageState extends State<MapPage> {
           position: _startLocation!,
           infoWindow: InfoWindow(title: 'Start Location'),
         ));
-      } else if (_endLocation == null) {
+      } else {
         _endLocation = position;
         _markers.add(Marker(
           markerId: MarkerId('end'),
@@ -53,22 +79,16 @@ class _MapPageState extends State<MapPage> {
     });
   }
 
-  void _addPolyline() async {
-  if (_startLocation != null && _endLocation != null) {
-    List<LatLng> polylineCoordinates = [];
-
-    PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
-      googleApiKey: APIKEY, // Your API Key
-      point1: PointLatLng(_startLocation!.latitude, _startLocation!.longitude), // Start Point
-      point2: PointLatLng(_endLocation!.latitude, _endLocation!.longitude), // End Point
-    );
-
-    if (result.status == 'OK') {
-      for (var point in result.points) {
-        polylineCoordinates.add(LatLng(point.latitude, point.longitude));
-      }
+  Future<void> _addPolyline() async {
+    if (_startLocation != null && _endLocation != null) {
+      List<LatLng> polylineCoordinates = await _polylineService.getPolyline(
+        API_KEY,
+        _startLocation!,
+        _endLocation!,
+      );
 
       setState(() {
+        _polylines.clear();
         _polylines.add(Polyline(
           polylineId: PolylineId('route'),
           points: polylineCoordinates,
@@ -78,8 +98,22 @@ class _MapPageState extends State<MapPage> {
       });
     }
   }
-}
 
+  void _showError(String message) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('Error'),
+        content: Text(message),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: Text('OK'),
+          ),
+        ],
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {

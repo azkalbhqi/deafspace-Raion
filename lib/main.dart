@@ -31,13 +31,13 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
 
 //testing Onboard
-      // home: OnboardingScreen(),
+      home: OnboardingScreen(),
       // home: AdminPage(),
       // home: SplashScreen(),   
       // home: Login()
 
 //Testing feature 
-      home: Translate(),
+      // home: Translate(),
      
     );
   }

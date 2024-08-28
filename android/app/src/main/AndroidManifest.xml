@@ -1,33 +1,33 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.deafspace_prod">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.example.deafspace_prod"
+    android:versionCode="TODO">
 
-    <!-- Add these permissions for location services -->
+    <!-- Permissions for location services -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
 
     <application
-        android:name="io.flutter.app.FlutterApplication"
-        android:label="deafspace_prod"
-        android:icon="@mipmap/ic_launcher">
-        
-        <!-- Add your Google Maps API Key here -->
+        android:icon="@mipmap/ic_launcher"
+        android:label="deafspace_prod">
+
+        <!-- Google Maps API Key -->
         <meta-data
-            android:name="com.google.android.geo.AIzaSyAKOyCwbPj5OTSLCkPpMgj_xCsYEBMDyoM"
-            android:value="AIzaSyAKOyCwbPj5OTSLCkPpMgj_xCsYEBMDyoM"/>
-        
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyAKOyCwbPj5OTSLCkPpMgj_xCsYEBMDyoM"/> <!-- Replace with your actual API key -->
+
         <activity
             android:name=".MainActivity"
-            android:launchMode="singleTop"
-            android:theme="@style/LaunchTheme"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|screenLayout|density|uiMode"
             android:hardwareAccelerated="true"
-            android:windowSoftInputMode="adjustResize">
+            android:launchMode="singleTop"
+            android:theme="@style/LaunchTheme"
+            android:windowSoftInputMode="adjustResize"
+            tools:targetApi="honeycomb">
+
             <meta-data
                 android:name="io.flutter.embedding.android.NormalTheme"
                 android:resource="@style/NormalTheme"/>
-            <meta-data
-                android:name="flutterEmbedding"
-                android:value="2"/>
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>

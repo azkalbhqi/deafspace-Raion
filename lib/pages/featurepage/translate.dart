@@ -11,11 +11,11 @@ class Translate extends StatefulWidget {
 }
 
 class _TranslateState extends State<Translate> {
-  TextEditingController textEditingController = TextEditingController();
+  TextEditingController textEditingControllerTts = TextEditingController();
+  TextEditingController textEditingControllerStt = TextEditingController();
   FlutterTts flutterTts = FlutterTts();
   stt.SpeechToText _speechToText = stt.SpeechToText();
   bool _isListening = false;
-  String _text = "Press the button and speak";
 
   @override
   void initState() {
@@ -40,8 +40,7 @@ class _TranslateState extends State<Translate> {
     _speechToText.listen(
       onResult: (result) {
         setState(() {
-          _text = result.recognizedWords;
-          textEditingController.text = _text;
+          textEditingControllerStt.text = result.recognizedWords;
         });
       },
     );
@@ -87,7 +86,7 @@ class _TranslateState extends State<Translate> {
               ),
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
               child: TextFormField(
-                controller: textEditingController,
+                controller: textEditingControllerTts,
                 maxLines: 4,
                 decoration: InputDecoration(
                   border: InputBorder.none,
@@ -100,7 +99,7 @@ class _TranslateState extends State<Translate> {
             Center(
               child: GestureDetector(
                 onTap: () {
-                  textToSpeech(textEditingController.text);
+                  textToSpeech(textEditingControllerTts.text);
                 },
                 child: Container(
                   height: 60,
@@ -141,11 +140,20 @@ class _TranslateState extends State<Translate> {
               ),
             ),
             const SizedBox(height: 20),
-            Text(
-              _text,
-              style: TextStyle(
-                fontSize: 18,
+            Container(
+              decoration: BoxDecoration(
                 color: Colors.white,
+                borderRadius: BorderRadius.circular(12),
+              ),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              child: TextFormField(
+                controller: textEditingControllerStt,
+                maxLines: 4,
+                decoration: InputDecoration(
+                  border: InputBorder.none,
+                  hintText: "Speech-to-Text result...",
+                  hintStyle: TextStyle(color: Colors.grey[400]),
+                ),
               ),
             ),
           ],

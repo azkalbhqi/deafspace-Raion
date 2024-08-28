@@ -1,6 +1,7 @@
 import 'package:deafspace_prod/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
+import 'package:speech_to_text/speech_to_text.dart' as stt;
 
 class Translate extends StatefulWidget {
   const Translate({Key? key}) : super(key: key);
@@ -12,6 +13,19 @@ class Translate extends StatefulWidget {
 class _TranslateState extends State<Translate> {
   TextEditingController textEditingController = TextEditingController();
   FlutterTts flutterTts = FlutterTts();
+  stt.SpeechToText _speechToText = stt.SpeechToText();
+  bool _isListening = false;
+  String _text = "Press the button and speak";
+
+  @override
+  void initState() {
+    super.initState();
+    _initSpeech();
+  }
+
+  Future<void> _initSpeech() async {
+    await _speechToText.initialize();
+  }
 
   void textToSpeech(String text) async {
     await flutterTts.setLanguage("id-ID");
@@ -19,6 +33,23 @@ class _TranslateState extends State<Translate> {
     await flutterTts.setSpeechRate(1);
     await flutterTts.setPitch(1);
     await flutterTts.speak(text);
+  }
+
+  void _startListening() async {
+    setState(() => _isListening = true);
+    _speechToText.listen(
+      onResult: (result) {
+        setState(() {
+          _text = result.recognizedWords;
+          textEditingController.text = _text;
+        });
+      },
+    );
+  }
+
+  void _stopListening() async {
+    setState(() => _isListening = false);
+    _speechToText.stop();
   }
 
   @override
@@ -86,6 +117,35 @@ class _TranslateState extends State<Translate> {
                     ),
                   ),
                 ),
+              ),
+            ),
+            const SizedBox(height: 20),
+            Center(
+              child: GestureDetector(
+                onTap: _isListening ? _stopListening : _startListening,
+                child: Container(
+                  height: 60,
+                  width: 60,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: ColorStyles.grey,
+                  ),
+                  child: Center(
+                    child: Icon(
+                      _isListening ? Icons.stop : Icons.mic,
+                      color: Colors.white,
+                      size: 30,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(height: 20),
+            Text(
+              _text,
+              style: TextStyle(
+                fontSize: 18,
+                color: Colors.white,
               ),
             ),
           ],

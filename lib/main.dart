@@ -9,6 +9,7 @@ import 'package:deafspace_prod/pages/login/login.dart';
 import 'package:deafspace_prod/onboarding/splash.dart';
 import 'package:deafspace_prod/onboarding/ob1.dart';
 import 'package:deafspace_prod/pages/featurepage/translate.dart';
+import 'package:deafspace_prod/admin/adminPage.dart';
 // import 'package:deafspace_prod/pages/signup/signup.dart';
 
 Future<void> main() async {
@@ -31,11 +32,13 @@ class MyApp extends StatelessWidget {
 
 //testing Onboard
       // home: OnboardingScreen(),
-      home: SplashScreen(),   
+      // home: AdminPage(),
+      // home: SplashScreen(),   
       // home: Login()
 
 //Testing feature 
-      // home: Translate(),
+      home: Translate(),
+     
     );
   }
 }

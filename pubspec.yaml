@@ -14,10 +14,12 @@ dependencies:
   google_fonts: ^6.2.1
   fluttertoast: ^8.2.8
   flutter_tts: ^4.0.2
+  speech_to_text: ^6.2.1
   geocoding: ^3.0.0
   google_maps_flutter: ^2.9.0
   location: ^7.0.0
-  flutter_polyline_points: ^1.0.0
+  # flutter_polyline_points: ^1.0.0
+  cloud_firestore: ^5.3.0
   
 
 

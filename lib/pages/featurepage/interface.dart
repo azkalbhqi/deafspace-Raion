@@ -1,17 +1,15 @@
-// ignore_for_file: use_key_in_widget_constructors, unused_import, prefer_const_constructors, prefer_const_literals_to_create_immutables, sort_child_properties_last
-
+import 'package:deafspace_prod/pages/order/order.dart';
+import 'package:deafspace_prod/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+// Import your pages here
 import 'package:deafspace_prod/pages/home/home.dart';
-// import 'package:deafspace_prod/pages/market_page.dart';
-// import 'package:deafspace_prod/pages/portofolio_page.dart';
-import 'package:deafspace_prod/widget/buttons.dart';
-// import './notification_page.dart';
-// import './login_page.dart';
+
+import 'package:deafspace_prod/pages/featurepage/translate.dart';
+import 'package:deafspace_prod/pages/featurepage/explore.dart';
+import 'package:deafspace_prod/pages/profile/profile.dart';
 
 class Interface extends StatefulWidget {
-  
-
   @override
   State<Interface> createState() => _InterfaceState();
 }
@@ -36,20 +34,29 @@ class _InterfaceState extends State<Interface> {
     setState(() {
       _selectedIndex = index;
     });
-    _pageController.animateToPage(index, duration: Duration(milliseconds: 300), curve: Curves.ease);
+    _pageController.animateToPage(index, duration: const Duration(milliseconds: 300), curve: Curves.ease);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('CampVestor App'),
+        title: Text(
+                  'Deafspace',
+                  style: GoogleFonts.raleway(
+                    textStyle: const TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20
+                    )
+                  ),
+                ),
         centerTitle: true,
         actions: [
           IconButton(
-            icon: Icon(Icons.notifications),
+            icon: const Icon(Icons.notifications),
             onPressed: () {
-              
+              // Handle notifications
             },
           ),
         ],
@@ -62,27 +69,38 @@ class _InterfaceState extends State<Interface> {
           });
         },
         children: [
-          Home(),
-          // MarketPage(),
-          // PortofolioPage(),
+          const Home(),
+          OrderPage(),
+          Translate(),
+          // ExplorePage(),
+          ProfilePage(),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
-        items: [
+        items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
-            label: 'Home',
+            label: 'Beranda',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.attach_money),
-            label: 'Market',
+            icon: Icon(Icons.near_me),
+            label: 'JBI',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.portrait),
-            label: 'Portfolio',
+            icon: Icon(Icons.graphic_eq),
+            label: 'Translate',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.group),
+            label: 'Eksplorasi',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            label: 'Profil',
           ),
         ],
         currentIndex: _selectedIndex,
+        selectedItemColor: ColorStyles.primary, // Adjust the color to match your design
         onTap: _onItemTapped,
       ),
     );

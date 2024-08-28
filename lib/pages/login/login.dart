@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:deafspace_prod/widget/buttons.dart';
 import 'package:deafspace_prod/styles.dart';
+import 'package:deafspace_prod/services/forgotpass.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -81,6 +82,8 @@ class _LoginState extends State<Login> {
                   _signin(context),
                   const SizedBox(height: 15),
                   _signup(context),
+                  const SizedBox(height: 20),
+                  _forgotpass(),
                 ],
               ),
             ),
@@ -103,6 +106,36 @@ class _LoginState extends State<Login> {
             fontWeight: FontWeight.bold,
             fontSize: 32,
           ),
+        ),
+      ),
+    );
+  }
+
+  Widget _forgotpass(){
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 0),
+      child: RichText(
+        textAlign: TextAlign.center,
+        text: TextSpan(
+          children: [
+            TextSpan(
+              text: "Forgot Password",
+              style: TextStyle(
+                color: ColorStyles.primary,
+                fontWeight: FontWeight.normal,
+                fontSize: 16,
+              ),
+              recognizer: TapGestureRecognizer()
+                ..onTap = () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const ForgotPassword(),
+                    ),
+                  );
+                },
+            ),
+          ],
         ),
       ),
     );

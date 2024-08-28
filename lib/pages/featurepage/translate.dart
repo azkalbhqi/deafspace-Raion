@@ -38,6 +38,7 @@ class _TranslateState extends State<Translate> {
   void _startListening() async {
     setState(() => _isListening = true);
     _speechToText.listen(
+      localeId: 'id-ID',
       onResult: (result) {
         setState(() {
           textEditingControllerStt.text = result.recognizedWords;
@@ -71,14 +72,14 @@ class _TranslateState extends State<Translate> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const Text(
-              "Text To Speech",
+              "Speech Translator",
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
                 color: Colors.white,
               ),
             ),
-            const SizedBox(height: 40),
+            const SizedBox(height: 20),
             Container(
               decoration: BoxDecoration(
                 color: Colors.white,
@@ -103,37 +104,15 @@ class _TranslateState extends State<Translate> {
                 },
                 child: Container(
                   height: 60,
-                  width: 60,
+                  width: 150,
                   decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: ColorStyles.grey,
+                    borderRadius: BorderRadius.circular(12),
+                    color: ColorStyles.primary,
                   ),
                   child: const Center(
-                    child: Icon(
-                      Icons.volume_up,
-                      color: Colors.white,
-                      size: 30,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            const SizedBox(height: 20),
-            Center(
-              child: GestureDetector(
-                onTap: _isListening ? _stopListening : _startListening,
-                child: Container(
-                  height: 60,
-                  width: 60,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: ColorStyles.grey,
-                  ),
-                  child: Center(
-                    child: Icon(
-                      _isListening ? Icons.stop : Icons.mic,
-                      color: Colors.white,
-                      size: 30,
+                    child: Text(
+                      "Text to Speech",
+                      style: TextStyle(color: Colors.white, fontSize: 16),
                     ),
                   ),
                 ),
@@ -153,6 +132,26 @@ class _TranslateState extends State<Translate> {
                   border: InputBorder.none,
                   hintText: "Speech-to-Text result...",
                   hintStyle: TextStyle(color: Colors.grey[400]),
+                ),
+              ),
+            ),
+            const SizedBox(height: 20),
+            Center(
+              child: GestureDetector(
+                onTap: _isListening ? _stopListening : _startListening,
+                child: Container(
+                  height: 60,
+                  width: 150,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12),
+                    color: ColorStyles.primary,
+                  ),
+                  child: Center(
+                    child: Text(
+                      _isListening ? "Stop Listening" : "Start Listening",
+                      style: TextStyle(color: Colors.white, fontSize: 16),
+                    ),
+                  ),
                 ),
               ),
             ),

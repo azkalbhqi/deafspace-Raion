@@ -1,6 +1,8 @@
+import 'package:deafspace_prod/pages/profile/editProfile.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:deafspace_prod/styles.dart'; // Ensure you have this import
+ // Import your ProfileUpdatePage
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -14,24 +16,24 @@ class ProfilePage extends StatelessWidget {
           // Profile Image
           Container(
             margin: const EdgeInsets.all(20),
-            child: CircleAvatar(
-              radius: 70,
+            child: const CircleAvatar(
+              radius: 50,
               backgroundImage: AssetImage('assets/images/profile.png'), // Replace with actual profile image
             ),
           ),
           // Profile Info
           Text(
-            'John Doe', // Replace with actual profile name
+            'Angel Aurora', // Replace with actual profile name
             style: GoogleFonts.poppins(
-              fontSize: 24,
+              fontSize: 20,
               fontWeight: FontWeight.bold,
             ),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: 4),
           Text(
-            'john.doe@example.com', // Replace with actual profile email
+            'Edit Profil', // Replace with actual profile info
             style: GoogleFonts.poppins(
-              fontSize: 16,
+              fontSize: 14,
               color: Colors.black54,
             ),
           ),
@@ -41,69 +43,79 @@ class ProfilePage extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 20.0),
             child: Column(
               children: [
-                ElevatedButton(
-                  onPressed: () {
-                    // Handle edit profile
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: ColorStyles.primary,
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                  ),
-                  child: Text(
-                    'Edit Profile',
-                    style: GoogleFonts.poppins(
-                      fontSize: 16,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 10),
-                ElevatedButton(
-                  onPressed: () {
+                _buildProfileOption(
+                  icon: Icons.history,
+                  title: 'History',
+                  onTap: () {
                     // Handle view history
                   },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: ColorStyles.primary,
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                  ),
-                  child: Text(
-                    'History',
-                    style: GoogleFonts.poppins(
-                      fontSize: 16,
-                      color: Colors.white,
-                    ),
-                  ),
                 ),
                 const SizedBox(height: 10),
-                ElevatedButton(
-                  onPressed: () {
+                _buildProfileOption(
+                  icon: Icons.receipt_long,
+                  title: 'Pesan Jasa',
+                  onTap: () {
+                    // Handle pesan jasa
+                  },
+                ),
+                const SizedBox(height: 10),
+                _buildProfileOption(
+                  icon: Icons.edit,
+                  title: 'Edit Profil',
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => ProfileUpdatePage()),
+                    );
+                  },
+                ),
+                const SizedBox(height: 10),
+                _buildProfileOption(
+                  icon: Icons.logout,
+                  title: 'Logout',
+                  onTap: () {
                     // Handle log out
                   },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: ColorStyles.primary,
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                  ),
-                  child: Text(
-                    'Log Out',
-                    style: GoogleFonts.poppins(
-                      fontSize: 16,
-                      color: Colors.white,
-                    ),
-                  ),
+                  isLogout: true,
                 ),
               ],
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildProfileOption({required IconData icon, required String title, required VoidCallback onTap, bool isLogout = false}) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(
+            color: isLogout ? Colors.red : ColorStyles.primary, // Red border for logout, primary color for others
+            width: 2,
+          ),
+        ),
+        child: Row(
+          children: [
+            Icon(icon, color: isLogout ? Colors.red : ColorStyles.primary),
+            const SizedBox(width: 10),
+            Expanded(
+              child: Text(
+                title,
+                style: GoogleFonts.poppins(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                  color: isLogout ? Colors.red : ColorStyles.primary,
+                ),
+              ),
+            ),
+            Icon(Icons.arrow_forward_ios, color: isLogout ? Colors.red : ColorStyles.primary, size: 16),
+          ],
+        ),
       ),
     );
   }

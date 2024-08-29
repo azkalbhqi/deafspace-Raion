@@ -1,11 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:deafspace_prod/pages/featurepage/interface.dart';
+import 'package:deafspace_prod/pages/workerPage/worker_interface.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 import 'package:deafspace_prod/pages/home/home.dart';
-import 'package:deafspace_prod/pages/home/worker.dart';
 import 'package:deafspace_prod/admin/adminPage.dart';
 import 'package:deafspace_prod/pages/login/login.dart';
 
@@ -131,7 +131,7 @@ class AuthService {
       } else if (role == 'worker') {
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => const WorkerPage()),
+          MaterialPageRoute(builder: (context) => WorkerInterface()),
         );
       } else {
         Navigator.pushReplacement(

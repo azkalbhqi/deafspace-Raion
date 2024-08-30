@@ -9,12 +9,14 @@
 
     <application
         android:icon="@mipmap/ic_launcher"
-        android:label="deafspace_prod">
+        android:label="deafspace_prod"
+        android:name="${deafSpace!}">
 
         <!-- Google Maps API Key -->
+       
         <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyAKOyCwbPj5OTSLCkPpMgj_xCsYEBMDyoM"/> <!-- Replace with your actual API key -->
+            android:name="flutterEmbedding"
+            android:value="2" />
 
         <activity
             android:name=".MainActivity"

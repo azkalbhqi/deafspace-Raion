@@ -12,12 +12,12 @@ android {
     ndkVersion "21.4.7075529" // Replace with the appropriate NDK version if required
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "17"
     }
 
     defaultConfig {
@@ -44,10 +44,8 @@ flutter {
 }
 
 dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    implementation 'com.google.android.gms:play-services-maps:17.0.0'
-    implementation 'com.google.android.gms:play-services-location:21.3.0'
-    
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:1.8.0" // Make sure this matches your Kotlin version
+    implementation 'com.midtrans:midtrans-sdk-android:1.3.2' // 
 }
 
 // Ensure the Google Services plugin is applied after the dependencies block

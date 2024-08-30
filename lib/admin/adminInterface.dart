@@ -1,19 +1,20 @@
-import 'package:deafspace_prod/pages/order/makeOrderPage.dart';
+import 'package:deafspace_prod/admin/adminPage.dart';
 import 'package:deafspace_prod/pages/order/order.dart';
+import 'package:deafspace_prod/pages/workerPage/orderList.dart';
+import 'package:deafspace_prod/pages/workerPage/worker_profile.dart';
 import 'package:deafspace_prod/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+// Import your pages here
 import 'package:deafspace_prod/pages/home/home.dart';
-import 'package:deafspace_prod/pages/featurepage/translate.dart';
-import 'package:deafspace_prod/pages/featurepage/explore.dart';
 import 'package:deafspace_prod/pages/profile/profile.dart';
 
-class Interface extends StatefulWidget {
+class WorkerInterface extends StatefulWidget {
   @override
-  State<Interface> createState() => _InterfaceState();
+  State<WorkerInterface> createState() => _WorkerInterfaceState();
 }
 
-class _InterfaceState extends State<Interface> {
+class _WorkerInterfaceState extends State<WorkerInterface> {
   int _selectedIndex = 0;
   late PageController _pageController;
 
@@ -41,7 +42,7 @@ class _InterfaceState extends State<Interface> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Deafspace',
+          'Worker Interface',
           style: GoogleFonts.raleway(
             textStyle: const TextStyle(
               color: Colors.black,
@@ -68,39 +69,28 @@ class _InterfaceState extends State<Interface> {
           });
         },
         children: [
-          const Home(),
-          OrderPage(),
-          Translate(),
-          explorePage(),
-          ProfilePage(),
+          AdminPage(),
+          AdminOrderPage(),
+          WorkerProfilingPage(),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
-            label: 'Beranda',
+            label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.near_me),
-            label: 'JBI',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.graphic_eq),
-            label: 'Translate',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.group),
-            label: 'Eksplorasi',
+            icon: Icon(Icons.shopping_bag),
+            label: 'Orders',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
-            label: 'Profil',
+            label: 'Profile',
           ),
         ],
         currentIndex: _selectedIndex,
-        selectedItemColor: ColorStyles.primary, // Color for the selected item
-        unselectedItemColor: Colors.grey, // Color for the unselected items
+        selectedItemColor: ColorStyles.primary, // Adjust the color to match your design
         onTap: _onItemTapped,
       ),
     );

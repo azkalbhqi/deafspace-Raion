@@ -1,4 +1,5 @@
 import 'package:deafspace_prod/pages/order/order.dart';
+import 'package:deafspace_prod/pages/workerPage/orderList.dart';
 import 'package:deafspace_prod/pages/workerPage/worker_profile.dart';
 import 'package:deafspace_prod/styles.dart';
 import 'package:flutter/material.dart';
@@ -67,8 +68,8 @@ class _WorkerInterfaceState extends State<WorkerInterface> {
           });
         },
         children: [
-          const Home(),
-          OrderPage(),
+          Home(),
+          AdminOrderPage(),
           WorkerProfilingPage(),
         ],
       ),

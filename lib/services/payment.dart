@@ -1,7 +1,8 @@
-import 'dart:convert'; // For JSON encoding
+import 'package:deafspace_prod/styles.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http; // For HTTP requests
-import 'package:deafspace_prod/styles.dart'; // Adjust the path if necessary
+import 'package:image_picker/image_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'dart:io';
 
 class PaymentPage extends StatefulWidget {
   @override
@@ -9,80 +10,102 @@ class PaymentPage extends StatefulWidget {
 }
 
 class _PaymentPageState extends State<PaymentPage> {
-  final String orderId = 'your_order_id'; // Replace with dynamic order ID
+  final _formKey = GlobalKey<FormState>();
+  final _picker = ImagePicker();
+  File? _image;
+  String? _transferDetails;
 
-  Future<void> _confirmPayment() async {
+  Future<void> _uploadImage() async {
+    if (_image == null) return;
+
     try {
-      final response = await http.put(
-        Uri.parse('https://65fd90629fc4425c653243d7.mockapi.io/orders/$orderId'),
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
-        body: jsonEncode({
-          'payment_status': true,
-        }),
-      );
-
-      if (response.statusCode == 200) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Payment confirmed successfully!'),
-          ),
-        );
-        // Navigate back or to another page after payment
-        Navigator.pop(context); // Navigate back to the previous page
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Failed to confirm payment: ${response.reasonPhrase}'),
-          ),
-        );
-      }
+      final storageRef = FirebaseStorage.instance.ref().child('payment_proofs/${DateTime.now().toIso8601String()}');
+      final uploadTask = storageRef.putFile(_image!);
+      await uploadTask.whenComplete(() async {
+        final downloadUrl = await storageRef.getDownloadURL();
+        print("Image uploaded! Download URL: $downloadUrl");
+        // You can save the downloadUrl to your database here
+      });
     } catch (e) {
-      print('Error: $e');  // Log the error
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Failed to confirm payment: $e'),
-        ),
-      );
+      print("Failed to upload image: $e");
+    }
+  }
+
+  Future<void> _pickImage() async {
+    final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      setState(() {
+        _image = File(pickedFile.path);
+      });
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ColorStyles.primary,
+      backgroundColor: ColorStyles.primary, // Background color
       appBar: AppBar(
-        title: const Text('Payment Confirmation'),
+        title: Text('Payment Page'),
         backgroundColor: ColorStyles.primary,
-        elevation: 0,
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text(
-              'Confirm Payment',
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(height: 30),
-            ElevatedButton(
-              onPressed: _confirmPayment,
-              style: ElevatedButton.styleFrom(
-                backgroundColor: ColorStyles.primary, // Background color
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                textStyle: const TextStyle(
-                  fontSize: 18,
-                  color: Colors.white,
+        child: Container(
+          width: double.infinity,
+          padding: const EdgeInsets.all(16.0),
+          color: Colors.white, // White background for the box
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Form(
+                key: _formKey,
+                child: Column(
+                  children: [
+                    TextFormField(
+                      decoration: InputDecoration(
+                        labelText: 'Transfer Details',
+                        border: OutlineInputBorder(),
+                      ),
+                      onChanged: (value) {
+                        setState(() {
+                          _transferDetails = value;
+                        });
+                      },
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter transfer details';
+                        }
+                        return null;
+                      },
+                    ),
+                    SizedBox(height: 20),
+                    _image == null
+                        ? Text('No image selected.')
+                        : Image.file(_image!),
+                    SizedBox(height: 20),
+                    ElevatedButton(
+                      onPressed: _pickImage,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: ColorStyles.primary, // Button color
+                      ),
+                      child: Text('Pick Image'),
+                    ),
+                    SizedBox(height: 20),
+                    ElevatedButton(
+                      onPressed: () {
+                        if (_formKey.currentState?.validate() ?? false) {
+                          _uploadImage();
+                        }
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: ColorStyles.primary, // Button color
+                      ),
+                      child: Text('Upload Payment Proof'),
+                    ),
+                  ],
                 ),
               ),
-              child: const Text('Pay Now'),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

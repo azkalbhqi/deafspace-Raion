@@ -1,22 +1,29 @@
 import 'package:deafspace_prod/pages/order/makeOrderPage.dart';
 import 'package:deafspace_prod/pages/order/orderdetail.dart'; // Import the OrderDetailPage
+import 'package:deafspace_prod/pages/workerPage/workerHome.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'dart:convert'; // To parse JSON
 import 'package:http/http.dart' as http; // To fetch data from the API
 import 'package:deafspace_prod/styles.dart';
 
-class OrderPage extends StatefulWidget {
+class AdminOrderPage extends StatefulWidget {
   @override
-  _OrderPageState createState() => _OrderPageState();
+  _AdminOrderPageState createState() => _AdminOrderPageState();
 }
 
-class _OrderPageState extends State<OrderPage> {
+class _AdminOrderPageState extends State<AdminOrderPage> {
   List<dynamic> orders = [];
 
   @override
   void initState() {
     super.initState();
+    fetchOrders();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
     fetchOrders();
   }
 
@@ -68,7 +75,10 @@ class _OrderPageState extends State<OrderPage> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => OrderDetailPage(order: order),
+                              builder: (context) => AdminPageControl(
+                                order: order,
+                                onStatusChanged: (String status) {},
+                              ),
                             ),
                           );
                         },
